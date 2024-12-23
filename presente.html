@@ -63,7 +63,7 @@
 
   .musica {
     background-color: black;
-    /* display: none; */
+    display: none;
   }
 
   #carouselExampleAutoplaying {
@@ -103,11 +103,10 @@
 
   <br><br>
   <div class="container">
-    <button class="musica">
-      <audio id="audiomp3" controls >
-        <source src="/Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video)_[_YouConvert.net_].mp3" type="audio/mp3" >
-      </audio>
-    </button>
+    <audio id="audiomp3" controls class="musica">
+      <source src="/Lady Gaga, Bruno Mars - Die With A Smile (Official Music Video)_[_YouConvert.net_].mp3" type="audio/mp3" >
+    </audio>
+    <button onclick="playMusic()">clique aqui pra ver se toca a música</button>
   </div>
 
   <h1 class="titulo"></h1>
@@ -203,11 +202,6 @@
   </script>
 
   <script>
-
-    $(function(){
-      audiomp3.play();
-    })
-
     const ano = 2023;
     const mes = 10;
     const dia = 28;
@@ -302,6 +296,10 @@
     }
 
     const intervalo = setInterval(atualizarTemporizador, 1000);
+
+    function playMusic() {
+      audiomp3.play();
+    }
 
   </script>
 
