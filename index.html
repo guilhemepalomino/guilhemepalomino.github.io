@@ -328,6 +328,7 @@
     const minutos = Math.floor(tempoRestante * 60);
     tempoRestante = (tempoRestante * 60) - minutos;
     const segundos = Math.floor(tempoRestante * 60);
+    
 
     document.getElementById("temporizador").innerHTML =
       `${anos} ano, ${meses} meses, ${dias} dias <br> ${horas} horas, ${minutos} minutos, ${segundos} segundos `;
