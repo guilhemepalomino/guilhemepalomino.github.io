@@ -233,103 +233,52 @@
   <script>
     document.getElementById('.meuvideo').muted = true;
   </script>
-
 <script>
   const ano = 2025;
   const mes = 1;
   const dia = 28;
   const hora = 0;
   const minuto = 0;
-  let messtring = mes.toString();
-  let diastring = dia.toString();
-  let horastring = hora.toString();
-  let minutostring = minuto.toString();
 
-  if (messtring.length < 2) {
-    messtring = "0" + messtring;
-  }
-
-  if (diastring.length < 2) {
-    diastring = "0" + diastring;
-  }
-
-  if (horastring.length < 2) {
-    horastring = "0" + horastring;
-  }
-
-  if (minutostring.length < 2) {
-    minutostring = "0" + minutostring;
-  }
+  let messtring = mes.toString().padStart(2, '0');
+  let diastring = dia.toString().padStart(2, '0');
+  let horastring = hora.toString().padStart(2, '0');
+  let minutostring = minuto.toString().padStart(2, '0');
 
   const tempoInicial = new Date(`${ano}-${messtring}-${diastring} ${horastring}:${minutostring}:00-03:00`);
 
   function atualizarTemporizador() {
+      const agora = new Date();
+      let tempoRestante = (agora - tempoInicial) / (1000 * 60 * 60 * 24);
 
-    const agora = new Date();
+      // Calculando anos restantes
+      const anos = Math.floor(tempoRestante / 365.256363004);
+      tempoRestante -= anos * 365.256363004;
 
-    let tempoRestante = (agora - tempoInicial) / (1000 * 60 * 60 * 24);
+      // Calculando meses restantes
+      const meses = Math.floor(tempoRestante / 30.4368499); // Aproximadamente 30.4 dias por mês
+      tempoRestante -= meses * 30.4368499;
 
-    let tira = 0
-    if ((agora.getMonth() + 1) < mes) {
-      tira = 1
-    }
+      // Calculando dias restantes
+      const dias = Math.floor(tempoRestante);
+      tempoRestante -= dias;
 
-    data = new Date(agora.getFullYear() + `-${messtring}-${diastring} ${horastring}:${minutostring}:00-03:00`);
-    resultData = Math.floor((data - tempoInicial) / (1000 * 60 * 60 * 24));
+      // Calculando horas restantes
+      const horas = Math.floor(tempoRestante * 24);
+      tempoRestante = (tempoRestante * 24) - horas;
 
-    const anos = Math.floor(resultData / 365.256363004) - tira;
-    tempoRestante = tempoRestante - resultData;
+      // Calculando minutos restantes
+      const minutos = Math.floor(tempoRestante * 60);
+      tempoRestante = (tempoRestante * 60) - minutos;
 
-    ultimoMes = agora.getMonth() + 1;
+      // Calculando segundos restantes
+      const segundos = Math.floor(tempoRestante * 60);
 
-    let ultimoAno = agora.getFullYear()
+      document.getElementById("temporizador").innerHTML =
+          `${anos} ano(s), ${meses} mês(es), ${dias} dia(s) <br> ${horas} hora(s), ${minutos} minuto(s), ${segundos} segundo(s)`;
+  }
 
-    if (agora.getDate() < dia) {
-      ultimoMes--;
-    }
-    else if (agora.getDate() == dia) {
-      if (agora.getHours() < hora) {
-        ultimoMes--;
-      }
-      else if (agora.getHours() == hora) {
-        if (agora.getMinutes() < minuto) {
-          ultimoMes--;
-        }
-      }
-    }
-
-    if (ultimoMes == 0) {
-      ultimoMes = 12
-      ultimoAno--
-    }
-
-    let meses
-
-    if (ultimoMes < (data.getMonth() + 1)) {
-      meses = 12 - (data.getMonth() + 1) + ultimoMes
-    }
-    else {
-      meses = ultimoMes - (data.getMonth() + 1);
-    }
-
-    dataMes = new Date(ultimoAno.toString() + "-" + (ultimoMes) + `-${diastring} ${horastring}:${minutostring}:00-03:00`);
-    resultMes = Math.floor((dataMes - data) / (1000 * 60 * 60 * 24));
-    tempoRestante = (tempoRestante - resultMes);
-    const dias = Math.floor(tempoRestante);
-    tempoRestante = (tempoRestante - dias);
-    const horas = Math.floor(tempoRestante * 24);
-    tempoRestante = (tempoRestante * 24) - horas;
-    const minutos = Math.floor(tempoRestante * 60);
-    tempoRestante = (tempoRestante * 60) - minutos;
-    const segundos = Math.floor(tempoRestante * 60);
-    
-    document.getElementById("temporizador").innerHTML =
-      `${anos} ano, ${meses} meses, ${dias} dias <br> ${horas} horas, ${minutos} minutos, ${segundos} segundos `;
-
-    }
-    
-    const intervalo = setInterval(atualizarTemporizador, 1000);
-
+  const intervalo = setInterval(atualizarTemporizador, 1000);
 </script>
 
 <script>
